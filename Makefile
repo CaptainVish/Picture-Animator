@@ -22,7 +22,7 @@ SOURCES += ../../depends/imgui.cpp ../../depends/imgui_demo.cpp ../../depends/im
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
 
-CXXFLAGS = -I./src/ -I../ -I../../ -I./depends/ -I./depends/stb
+CXXFLAGS = -I./src/ -I../ -I../../ -I./depends/ -I./depends/stb -I ./libs/opencv4
 CXXFLAGS += -g -Wall -Wformat
 LIBS =
 

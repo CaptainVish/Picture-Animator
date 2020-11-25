@@ -8,7 +8,7 @@
 #include "bg.h"
 #include "boat.h"
 #include "tree.h"
-
+#include <opencv2/opencv.hpp>
 
 int width = 550, height=700;
 int main(int, char**)
