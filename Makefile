@@ -17,7 +17,7 @@
 EXE = ./main
 SOURCES = ./src/main.cpp
 SOURCES += ../depends/imgui_impl_glfw.cpp ../imgui_impl_opengl3.cpp
-SOURCES += ./src/utils.cpp .src/clouds.h .src/bg.h .src/boat.h ./src/tree.h
+SOURCES += ./src/utils.cpp .src/clouds.h .src/bg.h .src/boat.h ./src/tree.h ./src/wave.h ./src/water.h 
 SOURCES += ../../depends/imgui.cpp ../../depends/imgui_demo.cpp ../../depends/imgui_draw.cpp ../../depends/imgui_widgets.cpp
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)

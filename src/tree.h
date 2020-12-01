@@ -9,7 +9,7 @@ public:
     GLuint tex;
     unsigned int shaderProgram;
     float rotation=0.02f;
-    glm::vec2 pos=glm::vec2(344/2,-695/2);
+    glm::vec2 pos=glm::vec2(0.225,0.96);
     float current_angle=0.0f;
     float count=0;//max count 60
     float maxcount=60;

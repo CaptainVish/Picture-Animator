@@ -7,7 +7,7 @@
 class Clouds{
 public:
     GLuint tex;
-    float translation=0.01f;
+    float translation=0.001f;
     float current_pos=0.0f;
     unsigned int shaderProgram;
     Clouds(){};

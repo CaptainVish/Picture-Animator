@@ -4,12 +4,16 @@
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
-#include <glm/gtc/matrix_transform.hpp> 
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include<ctime>
+#include<math.h>
+#include<chrono>
 // About Desktop OpenGL function loaders:
 //  Modern desktop OpenGL doesn't have a standard portable header file to load OpenGL function pointers.
 //  Helper libraries are often used for this purpose! Here we are supporting a few common ones (gl3w, glew, glad).
@@ -47,7 +51,7 @@ using namespace gl;
 #endif
 
 int openGLInit();
-   
+
 const char * setGLSLVersion();
 GLuint createShader(const char* filename, GLenum type);
 unsigned int createProgram(const char *vshader_filename, const char* fshader_filename);
@@ -65,3 +69,6 @@ void setupViewTransformation(unsigned int &);
 void setupProjectionTransformation(unsigned int &, int, int);
 
 bool load_texture( const char *file_name, GLuint *tex );
+bool load_texture( const char *file_name, GLuint *tex, float &width, float &height );
+
+void set_width_height(const char*file_name,float &width,float &height);

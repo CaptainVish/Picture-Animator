@@ -10,7 +10,7 @@ Clouds::Clouds(std::string filename){
 }
 
 void Clouds::run(unsigned int VAO,int width,int height){
-    if(current_pos>=25)current_pos=-25;
+    if(current_pos>=2)current_pos=-2;
     glm::mat4 model= glm::translate(glm::mat4(1.0f),glm::vec3((current_pos+translation),0.0,0.0));
     current_pos+=translation;
     glUseProgram(shaderProgram);

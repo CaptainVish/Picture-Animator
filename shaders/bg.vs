@@ -12,6 +12,8 @@ out vec2 texture_coordinates;;
 
 void main(void) {
 	gl_Position = vProjection * vView * vModel * vec4(vVertex, 1.0);
+	//gl_Position = vModel*vec4(vVertex, 1.0);
+
 	// fColor = vColor; //Interpolate color
 	texture_coordinates = vt;
 }

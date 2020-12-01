@@ -7,7 +7,7 @@ Tree::Tree(std::string filename){
     if (load_texture(filename.c_str(), &tex)){
         std::cout << "texture loaded successfully !!!!" << std::endl;
     }
-    shaderProgram=createProgram("./shaders/cloud.vs","./shaders/cloud.fs");
+    shaderProgram=createProgram("./shaders/tree.vs","./shaders/tree.fs");
 }
 
 void Tree::run(unsigned int VAO,int width,int height){
@@ -22,9 +22,11 @@ void Tree::run(unsigned int VAO,int width,int height){
         rotation=-rotation;
         count=0;
     }
-    glm::mat4 model=glm::translate(glm::mat4(1.0f),glm::vec3(-pos.x/width,-pos.y/height,0));
+    glm::mat4 model=glm::mat4(1.0f);
+    // std::cout<<pos.x<<" "<<pos.y<<std::endl;
+    model=glm::translate(model,glm::vec3(-pos.x,-pos.y,0));
     model =glm::rotate(model,glm::radians(current_angle+rotation),glm::vec3(0,0,1));
-    model=glm::translate(model,glm::vec3(pos.x/width,pos.y/height,0));
+    model=glm::translate(model,glm::vec3(pos.x,pos.y,0));
 
     current_angle+=rotation;
     count++;

@@ -3,16 +3,19 @@
 // (GLFW is a cross-platform general purpose library for handling windows, inputs, OpenGL/Vulkan/Metal graphics context creation, etc.)
 
 #include "utils.h"
-
+#include "water.h"
 #include "clouds.h"
 #include "bg.h"
 #include "boat.h"
 #include "tree.h"
 #include <opencv2/opencv.hpp>
 
-int width = 550, height=700;
+float width, height=600;
 int main(int, char**)
 {
+        set_width_height("./bg.png",width,height);
+
+
     // Setup window
 
     GLFWwindow *window = setupWindow(width, height);
@@ -39,10 +42,13 @@ int main(int, char**)
     //     std::cout << "texture loaded successfully !!!!" << std::endl;
     // }
 
+    Wave wave(0.001,0.1,0.001);//frequency wave_length amplitude
     Background bg("./bg.png");
     Clouds cloud("./clouds.png");
+    Water water("./water.png",wave);
     Tree tree("./tree.png");
-    Boat boat("./boat.png");
+    Boat boat("./boat.png",wave);
+
     // if (load_texture("./clouds.png", &tex3)){
     //     std::cout << "texture loaded successfully !!!!" << std::endl;
     // }
@@ -59,10 +65,10 @@ int main(int, char**)
 
     float vertices[] = {
     // positions            // texture coords
-     10.5f,  10.5f, 0.0f,      1.0f, 1.0f,   // top right
-     10.5f, -10.5f, 0.0f,      1.0f, 0.0f,   // bottom right
-    -10.5f, -10.5f, 0.0f,      0.0f, 0.0f,   // bottom left
-    -10.5f,  10.5f, 0.0f,      0.0f, 1.0f    // top left
+     1.0f,  1.0f, 0.0f,      1.0f, 1.0f,   // top right
+     1.0f, -1.0f, 0.0f,      1.0f, 0.0f,   // bottom right
+    -1.0f, -1.0f, 0.0f,      0.0f, 0.0f,   // bottom left
+    -1.0f,  1.0f, 0.0f,      0.0f, 1.0f    // top left
     };
 
     unsigned int indices[] = {
@@ -112,6 +118,10 @@ int main(int, char**)
         if(io.MouseClicked[0] && !ImGui::IsAnyItemActive()){
             float x = io.MousePos.x;
             float y = io.MousePos.y;
+            float hw=width/2,hh=height/2;
+
+            x=(x-hw)/hw;
+            y=-(hh-y)/hh;
             std::cout<<x<<" "<<y<<std::endl;
          }
 
@@ -138,7 +148,8 @@ int main(int, char**)
         // glUseProgram(shaderProgram);
         bg.run(VAO,width,height);
         cloud.run(VAO,width,height);
-        tree.run(VAO,width,height);
+        water.run(VAO,width,height);
+        // tree.run(VAO,width,height);
         boat.run(VAO,width,height);
         // glActiveTexture( GL_TEXTURE0 );
         // glBindTexture( GL_TEXTURE_2D, tex3 );
