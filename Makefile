@@ -17,12 +17,12 @@
 EXE = ./main
 SOURCES = ./src/main.cpp
 SOURCES += ../depends/imgui_impl_glfw.cpp ../imgui_impl_opengl3.cpp
-SOURCES += ./src/utils.cpp .src/clouds.h .src/bg.h .src/boat.h ./src/tree.h ./src/wave.h ./src/water.h 
+SOURCES += ./src/utils.cpp .src/clouds.h .src/bg.h .src/boat.h ./src/tree.h ./src/wave.h ./src/water.h
 SOURCES += ../../depends/imgui.cpp ../../depends/imgui_demo.cpp ../../depends/imgui_draw.cpp ../../depends/imgui_widgets.cpp
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
 
-CXXFLAGS = -I./src/ -I../ -I../../ -I./depends/ -I./depends/stb -I ./libs/opencv4
+CXXFLAGS = -I./src/ -I../ -I../../ -I./depends/ -I./depends/stb
 CXXFLAGS += -g -Wall -Wformat
 LIBS =
 
@@ -62,8 +62,12 @@ CXXFLAGS += -I./libs/gl3w -DIMGUI_IMPL_OPENGL_LOADER_GL3W
 ifeq ($(UNAME_S), Linux) #LINUX
 	ECHO_MESSAGE = "Linux"
 	LIBS += -lGL `pkg-config --static --libs glfw3`
+	LIBS += -lGL `pkg-config --libs opencv4`
+
 
 	CXXFLAGS += `pkg-config --cflags glfw3`
+	CXXFLAGS += `pkg-config --cflags opencv4`
+
 	CFLAGS = $(CXXFLAGS)
 endif
 
@@ -111,7 +115,7 @@ CC = cc
 
 %.o:./src/%.cpp
 	mkdir -p ./objs
-	$(CXX) $(CXXFLAGS) -c -o ./objs/$@ $<
+	$(CXX) $(CXXFLAGS) -c -o ./objs/$@ $< $(LIBS)
 
 all: $(EXE)
 	@echo Build complete for $(ECHO_MESSAGE)
