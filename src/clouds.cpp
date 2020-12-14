@@ -10,9 +10,12 @@ Clouds::Clouds(std::string filename){
 }
 
 void Clouds::run(unsigned int VAO,int width,int height){
+    // std::cout<<current_pos<<std::endl;
     if(current_pos>=2)current_pos=-2;
     glm::mat4 model= glm::translate(glm::mat4(1.0f),glm::vec3((current_pos+translation),0.0,0.0));
     current_pos+=translation;
+    // std::cout<<current_pos<<std::endl;
+
     glUseProgram(shaderProgram);
     int vModel_uniform=glGetUniformLocation(shaderProgram,"vModel");
     if(vModel_uniform == -1){
