@@ -1,7 +1,8 @@
 // dear imgui: standalone example application for GLFW + OpenGL 3, using programmable pipeline
 // If you are new to dear imgui, see examples/README.txt and documentation at the top of imgui.cpp.
 // (GLFW is a cross-platform general purpose library for handling windows, inputs, OpenGL/Vulkan/Metal graphics context creation, etc.)
-
+#include <stdio.h>
+#include <unistd.h>
 #include "utils.h"
 #include "water.h"
 #include "clouds.h"
@@ -13,7 +14,7 @@
 Mat img,inpaintMask, objectMask, inpaintResult;
 Point prevPt(-1,-1);
 
-float width, height=600;
+float width=600, height=600;
 
 
 static void onMouse( int event, int x, int y, int flags, void* )
@@ -131,7 +132,7 @@ void makeLayer(std::string filename,std::string toSave){
 
 int main(int argc, char** argv)
 {
-        set_width_height(argv[1],width,height);
+        // set_width_height(argv[1],width,height);
 
 
     // Setup window
@@ -161,22 +162,100 @@ int main(int argc, char** argv)
     // }
 
 
-
-
-    std::string filename=argv[1];
-    img=imread(filename,IMREAD_COLOR);
-    imwrite("bg.png",img);
-    Wave wave(0.001,0.1,0.001);//frequency wave_length amplitude
-    Background bg(filename.c_str());
-    // Background bg2(filename.c_str());
+// parse command line arguments
+    // std::string filename=argv[1];
+    std::string filename;
+    // img=imread(filename,IMREAD_COLOR);
+    // imwrite("bg.png",img);
+    Wave wave(0.0001,0.01,0.0001,0.0001);//frequency wave_length amplitude
+    // Background bg(filename.c_str());
+    Background bg;
+    // Background bg2("bg.png");
+    Background bg2;
     std::vector<Clouds> clouds;
     std::vector<Water> water;
     std::vector<Tree> tree;
     std::vector<Boat> boats;
-    Clouds cloud("./cloud.png");
-    // Water water("./water.png",wave);
-    // Tree tree("./tree.png");
-    // Boat boat("./boat.png",wave);
+
+    // if(argc>2){
+    // Clouds _cloud(argv[2]);
+    // clouds.push_back(_cloud);
+    // Water _water(argv[3],wave);
+    // water.push_back(_water);
+    // Tree _tree(argv[4]);
+    // tree.push_back(_tree);
+    // Boat _boat(argv[5],wave);
+    // boats.push_back(_boat);
+    // }
+
+    int opt;
+    while((opt = getopt(argc, argv, ":f:b:c:w:t:h")) != -1)
+{
+    switch(opt)
+    {
+        case 'h':
+        printf("-f option to add a file\n");
+        printf("-b option to add a file containing boat\n");
+        printf("-c option to add a file containing clouds\n");
+        printf("-w option to add a file containing water\n");
+        printf("-t option to add a file containing tree\n");
+        printf("-h option for help menu\n");
+        break;
+
+        case 'f':{
+        printf("filename %s\n", optarg);
+        filename=optarg;
+        img=imread(filename,IMREAD_COLOR);
+        imwrite("bg.png",img);
+        bg=Background(filename.c_str());
+        bg2=Background("bg.png");
+        break;
+        }
+
+        case 'c':{
+        printf("clouds %s \n", optarg);
+        Clouds _cloud(optarg,&wave);
+        clouds.push_back(_cloud);
+        break;
+        }
+
+        case 'b':{
+            printf("boat %s \n", optarg);
+            Boat _boat(optarg,&wave);
+            boats.push_back(_boat);
+            break;
+        }
+
+        case 'w':{
+            printf("water %s \n", optarg);
+            Water _water(optarg,&wave);
+            water.push_back(_water);
+            break;
+        }
+
+        case 't':{
+            printf("tree %s \n", optarg);
+            Tree _tree(optarg);
+            tree.push_back(_tree);
+            break;
+        }
+
+        case ':':{
+            printf("option %c needs a value\n",opt);
+            break;
+        }
+
+        case '?':{
+            printf("unknown option: %c\n", optopt);
+            break;
+        }
+
+        }
+    }
+
+
+
+
 
     // if (load_texture("./clouds.png", &tex3)){
     //     std::cout << "texture loaded successfully !!!!" << std::endl;
@@ -225,9 +304,11 @@ int main(int argc, char** argv)
 
     glEnable(GL_MULTISAMPLE);
 
-// boolean flags for different operations
+// boolean flags and variables for different operations and sliders
     bool b_cloud=false,b_water=false,b_tree=false,b_boats=false,show=false,boat_point=false,tree_point=false;
     bool reset=false;
+    float frequency=0.0f,wave_length=0.0f,amplitude=0.0f,windspeed=0.0f;
+
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
@@ -255,21 +336,29 @@ int main(int argc, char** argv)
             if(ImGui::Button("Boat Point")) boat_point=!boat_point;ImGui::SameLine();
             if(ImGui::Button("Tree Point")) tree_point=!tree_point;ImGui::SameLine();
             if(ImGui::Button("Reset")) reset=!reset;
+            if(ImGui::SliderFloat("Wind Speed",&windspeed,1.0f,10.0f)) {
+                wave.update_parameters(windspeed);
 
+                // std::cout<<frequency<<std::endl;
+                // std::cout<<"something something"<<wave.frequency<<std::endl;
+            }
+            // if(ImGui::SliderFloat("frequency",&frequency,1.0f,100.0f)){
+            //     wave.update_frequency(frequency);
+            //     std::cout<<"updated frequency "<<wave.frequency<<std::endl;
+            // }
+            // if(ImGui::SliderFloat("wavelength",&wave_length,0.0f,1.0f)){
+            //     wave.update_wavelength(wave_length);
+            //     std::cout<<"update wavelength "<<wave.wave_length<<std::endl;
+            // }
+            // if(ImGui::SliderFloat("amplitude",&amplitude,0.0f,0.1f)){
+            //     wave.update_amplitude(amplitude);
+            //     std::cout<<"updated amplitude "<<wave.amplitude<<std::endl;
+            // }
 
         }
 
 
-        //mouse position
-        if(io.MouseClicked[0] && !ImGui::IsAnyItemActive()){
-            float x = io.MousePos.x;
-            float y = io.MousePos.y;
-            float hw=width/2,hh=height/2;
 
-            x=(x-hw)/hw;
-            y=-(hh-y)/hh;
-            std::cout<<x<<" "<<y<<std::endl;
-         }
 
         // Rendering
         ImGui::Render();
@@ -299,7 +388,7 @@ int main(int argc, char** argv)
         {
             std::cout<<"Select Clouds"<<std::endl;
             makeLayer("bg.png","cloud");
-            Clouds temp("./cloud.png");
+            Clouds temp("./cloud.png",&wave);
             clouds.push_back(temp);
             bg=Background("bg.png");
             b_cloud=false;
@@ -307,7 +396,7 @@ int main(int argc, char** argv)
         if(b_water){
             std::cout<<"Select Water"<<std::endl;
             makeLayer("bg.png","water");
-            Water temp("./water.png",wave);
+            Water temp("./water.png",&wave);
             water.push_back(temp);
             bg=Background("bg.png");
             b_water=false;
@@ -317,7 +406,9 @@ int main(int argc, char** argv)
             makeLayer("bg.png","tree");
             Tree temp("./tree.png");
             tree.push_back(temp);
-            bg=Background("bg.png");
+            // bg=Background("./bg.png");
+            // bg2=Background("./tree.png");
+            bg=Background("./bg.png");
 
             b_tree=false;
         }
@@ -325,19 +416,49 @@ int main(int argc, char** argv)
 
             std::cout<<"Select boats"<<std::endl;
             makeLayer("bg.png","boat");
-            Boat temp("./boat.png",wave);
+            Boat temp("./boat.png",&wave);
             boats.push_back(temp);
-            bg=Background("bg.png");
+            // bg=Background("./bg.png");
+            // bg2=Background("./boat.png");
+            bg=Background("./bg.png");
 
             b_boats=false;
         }
         // will only add to the last boat added in the list
+
         if(boat_point){
+            bg2.tex=boats.back().tex;
+            bg2.run(VAO,width,height);
+            //mouse position
+            if(io.MouseClicked[0] && !ImGui::IsAnyItemActive()){
+                float x = io.MousePos.x;
+                float y = io.MousePos.y;
+                float hw=width/2,hh=height/2;
+
+                x=(x-hw)/hw;
+                y=-(hh-y)/hh;
+                std::cout<<x<<" "<<y<<std::endl;
+                boats.back().setPos(x,y);
+                boat_point=false;
+             }
 
         }
         // will only add to the last tree added in the list
         if(tree_point){
+            bg2.tex=tree.back().tex;
+            bg2.run(VAO,width,height);
+            //mouse position
+            if(io.MouseClicked[0] && !ImGui::IsAnyItemActive()){
+                float x = io.MousePos.x;
+                float y = io.MousePos.y;
+                float hw=width/2,hh=height/2;
 
+                x=(x-hw)/hw;
+                y=-(hh-y)/hh;
+                std::cout<<x<<" "<<y<<std::endl;
+                // tree.back().setPos(x,y);
+                tree_point=false;
+             }
         }
 
         if(reset){
@@ -372,6 +493,7 @@ int main(int argc, char** argv)
         }
         for(int i=0;i<boats.size();++i){
                 // std::cout<<"cloud object present"<<std::endl;
+                // std::cout<<i<<std::endl;
                 boats[i].run(VAO,width,height);
         }
 

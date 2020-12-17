@@ -2,7 +2,8 @@
 #include "clouds.h"
 #include <string>
 // constructor
-Clouds::Clouds(std::string filename){
+Clouds::Clouds(std::string filename,Wave*wave_){
+    wave=wave_;
     if (load_texture(filename.c_str(), &tex)){
         std::cout << "texture loaded successfully !!!!" << std::endl;
     }
@@ -11,6 +12,7 @@ Clouds::Clouds(std::string filename){
 
 void Clouds::run(unsigned int VAO,int width,int height){
     // std::cout<<current_pos<<std::endl;
+    float translation=wave->translation;
     if(current_pos>=2)current_pos=-2;
     glm::mat4 model= glm::translate(glm::mat4(1.0f),glm::vec3((current_pos+translation),0.0,0.0));
     current_pos+=translation;

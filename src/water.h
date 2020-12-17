@@ -11,11 +11,11 @@ public:
     unsigned int shaderProgram;
 
 
-    Wave wave;
+    Wave *wave;
     std::chrono::high_resolution_clock::time_point t1;
 
     Water(){};
-    Water(std::string filename,Wave wave);
+    Water(std::string filename,Wave *wave);
     void run(unsigned int VAO,int width,int height);
 
 };

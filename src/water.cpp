@@ -2,9 +2,9 @@
 #include "water.h"
 #include <string>
 // constructor
-Water::Water(std::string filename,Wave wave_){
+Water::Water(std::string filename,Wave *wave_){
     wave=wave_;
-    t1=wave.get_time();
+    t1=wave->get_time();
     if (load_texture(filename.c_str(), &tex)){
         std::cout << "texture loaded successfully !!!!" << std::endl;
     }
@@ -14,8 +14,9 @@ Water::Water(std::string filename,Wave wave_){
 void Water::run(unsigned int VAO,int width,int height){
 
 
-    long double time_diff=wave.get_time_diff(t1);
-    float k=wave.k,w=wave.w,amplitude=wave.amplitude;
+    long double time_diff=wave->get_time_diff(t1);
+    float k=wave->k,w=wave->w,amplitude=wave->amplitude;
+    // std::cout<<wave->frequency<<" "<<wave->amplitude<<" "<<wave->wave_length<<std::endl;
     // float y=amplitude*sin(k*pos.x-w*time_diff);
     // std::cout<<y<<std::endl;
     // std::cout<<theta<<std::endl;
