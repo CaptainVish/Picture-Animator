@@ -167,7 +167,7 @@ int main(int argc, char** argv)
     std::string filename;
     // img=imread(filename,IMREAD_COLOR);
     // imwrite("bg.png",img);
-    Wave wave(0.0001,0.01,0.0001,0.0001);//frequency wave_length amplitude
+    Wave wave(0.0001,0.01,0.0001,0.0001,0.0001);//frequency, wave_length, amplitude, translation, rotation
     // Background bg(filename.c_str());
     Background bg;
     // Background bg2("bg.png");
@@ -187,7 +187,6 @@ int main(int argc, char** argv)
     // Boat _boat(argv[5],wave);
     // boats.push_back(_boat);
     // }
-
     int opt;
     while((opt = getopt(argc, argv, ":f:b:c:w:t:h")) != -1)
 {
@@ -235,7 +234,7 @@ int main(int argc, char** argv)
 
         case 't':{
             printf("tree %s \n", optarg);
-            Tree _tree(optarg);
+            Tree _tree(optarg,&wave);
             tree.push_back(_tree);
             break;
         }
@@ -388,7 +387,7 @@ int main(int argc, char** argv)
         {
             std::cout<<"Select Clouds"<<std::endl;
             makeLayer("bg.png","cloud");
-            Clouds temp("./cloud.png",&wave);
+            Clouds temp("./cloud.png",&wave,true);
             clouds.push_back(temp);
             bg=Background("bg.png");
             b_cloud=false;
@@ -396,7 +395,7 @@ int main(int argc, char** argv)
         if(b_water){
             std::cout<<"Select Water"<<std::endl;
             makeLayer("bg.png","water");
-            Water temp("./water.png",&wave);
+            Water temp("./water.png",&wave,true);
             water.push_back(temp);
             bg=Background("bg.png");
             b_water=false;
@@ -404,7 +403,7 @@ int main(int argc, char** argv)
         if(b_tree){
             std::cout<<"Select tree"<<std::endl;
             makeLayer("bg.png","tree");
-            Tree temp("./tree.png");
+            Tree temp("./tree.png",&wave,true);
             tree.push_back(temp);
             // bg=Background("./bg.png");
             // bg2=Background("./tree.png");
@@ -416,7 +415,7 @@ int main(int argc, char** argv)
 
             std::cout<<"Select boats"<<std::endl;
             makeLayer("bg.png","boat");
-            Boat temp("./boat.png",&wave);
+            Boat temp("./boat.png",&wave,true);
             boats.push_back(temp);
             // bg=Background("./bg.png");
             // bg2=Background("./boat.png");
@@ -456,7 +455,7 @@ int main(int argc, char** argv)
                 x=(x-hw)/hw;
                 y=-(hh-y)/hh;
                 std::cout<<x<<" "<<y<<std::endl;
-                // tree.back().setPos(x,y);
+                tree.back().setPos(x,y);
                 tree_point=false;
              }
         }

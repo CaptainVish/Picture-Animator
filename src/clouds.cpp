@@ -2,7 +2,8 @@
 #include "clouds.h"
 #include <string>
 // constructor
-Clouds::Clouds(std::string filename,Wave*wave_){
+Clouds::Clouds(std::string filename,Wave*wave_,bool from_layer){
+    if(from_layer)glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     wave=wave_;
     if (load_texture(filename.c_str(), &tex)){
         std::cout << "texture loaded successfully !!!!" << std::endl;

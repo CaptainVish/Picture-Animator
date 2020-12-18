@@ -2,7 +2,8 @@
 #include "boat.h"
 #include <string>
 // constructor
-Boat::Boat(std::string filename,Wave *wave_){
+Boat::Boat(std::string filename,Wave *wave_,bool from_layer){
+    if(from_layer)glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     wave=wave_;
     t1=wave->get_time();
     // pos=glm::vec2(254,527);
@@ -15,6 +16,7 @@ Boat::Boat(std::string filename,Wave *wave_){
 bool Boat::setPos(float x,float y){
     pos.x=x;
     pos.y=y;
+    return true;
 }
 void Boat::run(unsigned int VAO,int width,int height){
     // if(count>0 && count>=maxcount && mid){

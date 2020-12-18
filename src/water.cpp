@@ -2,7 +2,8 @@
 #include "water.h"
 #include <string>
 // constructor
-Water::Water(std::string filename,Wave *wave_){
+Water::Water(std::string filename,Wave *wave_,bool from_layer){
+    if(from_layer)glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     wave=wave_;
     t1=wave->get_time();
     if (load_texture(filename.c_str(), &tex)){

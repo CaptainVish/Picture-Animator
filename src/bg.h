@@ -9,7 +9,7 @@ public:
     GLuint tex;
     unsigned int shaderProgram;
     Background(){};
-    Background(std::string filename);
+    Background(std::string filename,bool from_layer=false);
     void run(unsigned int VAO,int width,int height);
 
 };

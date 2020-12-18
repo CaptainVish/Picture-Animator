@@ -23,7 +23,7 @@ public:
     std::chrono::high_resolution_clock::time_point t1;
 
     Boat(){};
-    Boat(std::string filename,Wave *wave);
+    Boat(std::string filename,Wave *wave,bool from_layer=false);
     void run(unsigned int VAO,int width,int height);
     bool setPos(float x,float y);
 

@@ -2,7 +2,9 @@
 #include "bg.h"
 #include <string>
 // constructor
-Background::Background(std::string filename){
+Background::Background(std::string filename,bool from_layer){
+    if(from_layer)glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
     if (load_texture(filename.c_str(), &tex)){
         std::cout << "texture loaded successfully !!!!" << std::endl;
     }

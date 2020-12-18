@@ -12,7 +12,7 @@ public:
     float current_pos=0.0f;
     unsigned int shaderProgram;
     Clouds(){};
-    Clouds(std::string filename,Wave *wave_);
+    Clouds(std::string filename,Wave *wave_,bool from_layer=false);
     void run(unsigned int VAO,int width,int height);
 
 

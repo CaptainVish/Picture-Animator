@@ -15,7 +15,7 @@ public:
     std::chrono::high_resolution_clock::time_point t1;
 
     Water(){};
-    Water(std::string filename,Wave *wave);
+    Water(std::string filename,Wave *wave,bool from_layer=false);
     void run(unsigned int VAO,int width,int height);
 
 };

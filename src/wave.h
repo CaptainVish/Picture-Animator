@@ -13,9 +13,10 @@ public:
     float k;
     float w;
     float translation;
+    float rotation;
 
     Wave(){};
-    Wave(float frequency,float wave_length,float amplitude,float translation);
+    Wave(float frequency,float wave_length,float amplitude,float translation,float rotation);
 
 
     float get_position(float x,float t);
