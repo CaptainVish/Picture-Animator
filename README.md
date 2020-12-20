@@ -23,6 +23,7 @@ cd Animating-Pictures
 make
 ./main -f background2.png -b boat2.png -t tree2.png -c cloud2.png -w water2.png 
 ```
+Then click the **show** button on the GUI to see the image animated.
 
 ### To animate an image of your choice
 ```sh
@@ -42,7 +43,11 @@ The GUI contains:
 - Show button - to show the animated outcome after segmentation. 
 
 ### Steps
-Click *show* at anytime to see the animated segmented layers. \
-Click the *object* buttons to get a pop up in which you should mark/draw over the areas of the unsegmented object. \
-After marking the area of the object click the **s** key to save the object. \
-Click *show* see the animated objects. 
+Click the respective *object* buttons to get a pop up window to select objects you want to segment. \
+In the new window 
+- **mark/draw over** the areas of the unsegmented object you clicked the button of.
+- click the **r** key to reset the new window.
+- click **esc** key to close the new window .
+- click the **s** key to segment the object and inpaint the background. 
+
+Click *show* to see the animated objects. 
