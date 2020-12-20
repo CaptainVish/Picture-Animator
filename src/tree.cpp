@@ -29,7 +29,7 @@ void Tree::run(unsigned int VAO,int width,int height){
 
     glm::mat4 model=glm::mat4(1.0f);
     glm::mat4 shear=glm::mat4(1.0f);
-    shear[1][0]=tan(current_angle+rotation);
+    shear[1][0]=sin(current_angle+rotation);
     // std::cout<<"shear "<<glm::to_string(shear)<<std::endl;
     // std::cout<<pos.x<<" "<<pos.y<<std::endl;
     model=glm::translate(model,glm::vec3(-pos.x,-pos.y,0));
