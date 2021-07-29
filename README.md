@@ -12,7 +12,7 @@ GLFW https://www.glfw.org/   \
 OpenCV https://opencv.org/releases/  
 
 ## Build Instructions 
-Run the follwoing commands on the linux terminal:
+Run the following commands on the linux terminal:
 ```sh
 cd Animating-Pictures
 make
