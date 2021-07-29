@@ -176,7 +176,7 @@ int main(int argc, char** argv)
     std::vector<Water> water;
     std::vector<Tree> tree;
     std::vector<Boat> boats;
-
+    
     // if(argc>2){
     // Clouds _cloud(argv[2]);
     // clouds.push_back(_cloud);
@@ -217,7 +217,7 @@ int main(int argc, char** argv)
         clouds.push_back(_cloud);
         break;
         }
-
+	       
         case 'b':{
             printf("boat %s \n", optarg);
             Boat _boat(optarg,&wave);
@@ -304,7 +304,7 @@ int main(int argc, char** argv)
     glEnable(GL_MULTISAMPLE);
 
 // boolean flags and variables for different operations and sliders
-    bool b_cloud=false,b_water=false,b_tree=false,b_boats=false,show=false,boat_point=false,tree_point=false;
+    bool b_cloud=false,b_water=false,b_tree=false,b_boats=false,b_about=false,show=false,boat_point=false,tree_point=false;
     bool reset=false;
     float frequency=0.0f,wave_length=0.0f,amplitude=0.0f,windspeed=0.0f;
 
@@ -327,6 +327,7 @@ int main(int argc, char** argv)
             //
             // ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
             // ImGui::End();
+            
             if(ImGui::Button("show")) show=!show; ImGui::SameLine();
             if(ImGui::Button("Clouds")) b_cloud=!b_cloud;ImGui::SameLine();
             if(ImGui::Button("Water")) b_water=!b_water;ImGui::SameLine();
@@ -334,6 +335,7 @@ int main(int argc, char** argv)
             if(ImGui::Button("Boats")) b_boats=!b_boats;ImGui::SameLine();
             if(ImGui::Button("Boat Point")) boat_point=!boat_point;ImGui::SameLine();
             if(ImGui::Button("Tree Point")) tree_point=!tree_point;ImGui::SameLine();
+            if(ImGui::Button("About")) b_about=!b_about;ImGui::SameLine();
             if(ImGui::Button("Reset")) reset=!reset;
             if(ImGui::SliderFloat("Wind Speed",&windspeed,1.0f,10.0f)) {
                 wave.update_parameters(windspeed);
@@ -390,6 +392,15 @@ int main(int argc, char** argv)
             Clouds temp("./cloud.png",&wave,true);
             clouds.push_back(temp);
             bg=Background("bg.png");
+            b_cloud=false;
+        }
+        if(b_about)
+        {
+            std::cout<<"About the project"<<std::endl;
+            makeLayer("About.png","cloud");
+            Clouds temp("./cloud.png",&wave,true);
+            clouds.push_back(temp);
+            bg=Background("About.png");
             b_cloud=false;
         }
         if(b_water){
