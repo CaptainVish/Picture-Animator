@@ -1,4 +1,4 @@
-# Animating Pictures
+# Picture Animator
 We enhance static pictures by introducing subtle motions to passive elements, responses to natural forces like the wind. We follow the approach of the paper ["Animating Pictures with Stochastic Motion Textures"](http://grail.cs.washington.edu/projects/StochasticMotionTextures/) by Chuang et al.
 
 ## Outcome
