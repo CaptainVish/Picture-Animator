@@ -3,11 +3,6 @@ We enhance static pictures by introducing subtle motions to passive elements, re
 
 ## Outcome
 <p align="middle" float="left">
-<img src="https://github.com/CSE-333-Computer-Graphics-2020/Animating-Pictures/blob/master/boatMonet.jpg" width="300" />
-<img src="https://github.com/CSE-333-Computer-Graphics-2020/Animating-Pictures/blob/master/boatCG.gif" width="300" />
-</p>
-
-<p align="middle" float="left">
 <img src="https://github.com/CSE-333-Computer-Graphics-2020/Animating-Pictures/blob/master/bridgeMonet.jpg" width="300" />
 <img src="https://github.com/CSE-333-Computer-Graphics-2020/Animating-Pictures/blob/master/bridgeCG.gif" width="300" />
 </p>  
